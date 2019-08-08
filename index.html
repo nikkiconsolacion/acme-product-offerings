@@ -37,8 +37,16 @@
         const [ products, companies, offerings ] = await Promise.all(responses.map( response => response.json()));
 
         console.log('products', products);
-        const productNames = products.map( product => `<div class='product-card'>${product.name}</div>`).join('');
+        const productNames = products.map( product => `
+        <div class='product-card'>
+          ${product.name}
+          <div>${ product.description }</div>
+          <div>$${ product.suggestedPrice }.00</div>
+          <ul><li></li></ul>
+        </div>`).join('');
         productsDiv.innerHTML = productNames;
+
+        //const companyNames = companies.map( company => ``)
       }
       loadData();
       // define event listeners (i.e. 'hashchange')
