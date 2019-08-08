@@ -16,47 +16,70 @@
   </head>
   <body>
     <div id='products'>
-
+​
     </div>
-
+​
     <script>
       //global variables
       const productsDiv = document.querySelector('#products');
-
+​
       const API = 'https://acme-users-api-rev.herokuapp.com/api';
       let id = ''; // id of product - how will our app change this?
       let data = []; // list of products - where will this data come from?
-
+​
       const loadData = async()=> {
         const responses = await Promise.all([
           fetch('https://acme-users-api-rev.herokuapp.com/api/products'),
           fetch('https://acme-users-api-rev.herokuapp.com/api/companies'),
           fetch('https://acme-users-api-rev.herokuapp.com/api/offerings')
         ]);
-
+​
         const [ products, companies, offerings ] = await Promise.all(responses.map( response => response.json()));
-
-        console.log('products', products);
+​
+        // console.log('products', products);
         const productNames = products.map( product => `
         <div class='product-card'>
           ${product.name}
           <div>${ product.description }</div>
           <div>$${ product.suggestedPrice }.00</div>
-          <ul><li></li></ul>
+          <ul></ul>
         </div>`).join('');
         productsDiv.innerHTML = productNames;
-
-        //const companyNames = companies.map( company => ``)
+​
+        const ul = document.querySelector("ul");
+​
+        // const companyNames = companies.map( company => 
+        //   `<li> 
+        //     ${company.name}
+        //   </li>`
+        // ).join('');
+        // ul.innerHTML += companyNames;
+​
+​
+        const fooCompanies = offerings.filter( offering => {
+          return offering.productId === products[0].id;
+        });
+        console.log(fooCompanies);
+        
       }
       loadData();
+​
+​
+      // const companyNames = offerings.map( offering => {
+      //     return offering.filter( product => {
+      //       return offering.productId === products.id
+      //     }).join('');
+      //   }).join('');
+​
+​
       // define event listeners (i.e. 'hashchange')
-
+​
       // other functions?
-
+​
       // do we need to execute any functions when the page loads (not just inside other functions)?
       // i.e. render();
       // something else?
-
+​
     </script>
   </body>
 </html>
